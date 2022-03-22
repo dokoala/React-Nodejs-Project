@@ -1,12 +1,7 @@
-const express = require('express');
-const bodyPraser = require('body-parser');
-const app = express();
-const port = process.env.PORT || 5000;
+const express = require("express");
+const router = express.Router();
 
-app.use(bodyPraser.json());
-app.use(bodyPraser.urlencoded({extended: true}));
-
-app.get('/api/locations', (req, res) => {
+router.get('/location', (req, res) => {
     res.send([
       {
         'id' : 1,
@@ -25,4 +20,4 @@ app.get('/api/locations', (req, res) => {
     ]);
 });
 
-app.listen(port, () => console.log('Listening on port '+ port));
+module.exports = router;

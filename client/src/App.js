@@ -1,3 +1,5 @@
+import axios from "axios";
+import {useEffect} from "react";
 import { Component } from 'react';
 import Location from './components/Location';
 import {
@@ -7,7 +9,9 @@ import {
   TableCell, 
   TableRow, 
   Paper,
-  withStyles} from '@material-ui/core'
+  withStyles,
+  CircularProgress} from '@material-ui/core'
+
 import './App.css';
 
 const styles = theme => ({
@@ -18,26 +22,42 @@ const styles = theme => ({
   },
   table: {
     minWidth: 1080
+  },
+  progress: {
+    margin: theme.spacing.unit * 2,
   }
-})
-
-const location = [{
-  'id' : 1,
-  'image' : 'https//placeimage.com/64/64/2',
-  'name' : "대구",
-  'lat' : "123.33",
-  'lon' : "267.33"
-},
-{
-  'id' : 2,
-  'image' : 'https//placeimage.com/64/64/3',
-  'name' : "서울",
-  'lat' : "124.33",
-  'lon' : "265.33"
-}]
+});
 
 class App extends Component{
+
+  state = { //변경될수 있는 변수 관리 state
+    locations: "",
+    completed: 0
+  }
+
+  progress = () =>{
+    const { completed } = this.state;
+    this.setState({ completed: completed >= 100 ? 0 : completed + 1});
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(this.progress, 20);
+    this.callApi()
+      .then(res => this.setState({locations: res}))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    console.log(2222222);
+    const response = await fetch('/api/locations');
+    console.log(response)
+    const body = await response.json();
+    console.log(body)
+    return body;
+  }
+
   render(){
+    console.log(this.state.locations)
     const {classes} = this.props;
     return(
       <Paper className={classes.root}>
@@ -51,7 +71,7 @@ class App extends Component{
           </TableHead>
           <TableBody>
           {
-            location.map(c => {
+            this.state.locations ? this.state.locations.map(c => {
               return (
                 <Location
                   id = {c.id}
@@ -61,8 +81,12 @@ class App extends Component{
                   lon = {c.lon}
                 />
               )
-            })
-          }
+            }) : 
+            <TableRow>
+              <TableCell colSpan="6" align="center">
+                <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
+              </TableCell>
+            </TableRow>}
           </TableBody>
         </Table>
       </Paper>      
