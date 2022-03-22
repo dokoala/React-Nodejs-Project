@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-
-class Location extends React.Component{
+import { TableRow, TableCell } from '@material-ui/core';
+class Location extends Component{
     render(){
         return(
-            <div>
-                <LocationData id={this.props.id} image={this.props.image} name={this.props.name}/>
-                <LocationInfo lat={this.props.lat} lon={this.props.lon}/>
-            </div>
+            <TableRow>
+                <TableCell>{this.props.id}</TableCell>
+                <TableCell><img src={this.props.image} alt="profile"/></TableCell>
+                <TableCell>{this.props.name}</TableCell>
+                <TableCell>{this.props.lat}</TableCell>
+                <TableCell>{this.props.lon}</TableCell>
+            </TableRow>
         )
     }
 }
