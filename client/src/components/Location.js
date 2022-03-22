@@ -14,26 +14,4 @@ class Location extends Component{
     }
 }
 
-class LocationData extends React.Component{
-    render(){
-        return(            
-                <div>
-                    <img src={this.props.image} alt="Data"/>
-                    <h2>{this.props.name}({this.props.id})</h2>
-                </div>
-            )
-    }
-}
-
-class LocationInfo extends React.Component{
-    render(){
-        return(            
-                <div>
-                    <p>{this.props.lat}</p>
-                    <p>{this.props.lon}</p>
-                </div>
-            )
-    }
-}
-
 export default Location;
